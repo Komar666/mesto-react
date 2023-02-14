@@ -39,7 +39,7 @@ function App(props) {
 
   return (
     <div className="page">
-      <Header />;
+      <Header />
       <Main
         onCardClick={setSelectedCard}
         onEditProfile={handleEditProfileClick}
@@ -47,9 +47,12 @@ function App(props) {
         onEditAvatar={handleEditAvatarClick}
         onConfirm={handleConfirmationClick}
       />
-      ;
-      <Footer />;
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} />;
+
+      <Footer />
+      {selectedCard && (
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+      )}
+
       <PopupWithForm
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
@@ -84,7 +87,7 @@ function App(props) {
         />
         <span className="about-input-error popup-form__error"></span>
       </PopupWithForm>
-      ;
+
       <PopupWithForm
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
@@ -143,7 +146,6 @@ function App(props) {
         title="Вы уверены?"
         name="close"
       />
-      ;
     </div>
   );
 }

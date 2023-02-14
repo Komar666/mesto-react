@@ -11,13 +11,13 @@ function Main(props) {
   const [userAvatar, setUserAvatar] = useState("");
   const [cards, setCards] = useState([]);
 
-  function setProfile(name, about, avatar) {
-    setUserName(name);
-    setUserDescription(about);
-    setUserAvatar(avatar);
-  }
-
   useEffect(() => {
+    function setProfile(name, about, avatar) {
+      setUserName(name);
+      setUserDescription(about);
+      setUserAvatar(avatar);
+    }
+
     api
       .getUserInfo()
       .then((res) => {
@@ -26,9 +26,7 @@ function Main(props) {
       .catch((err) => {
         console.log(err);
       });
-  });
 
-  useEffect(() => {
     api
       .getInitialCards()
       .then((cardsResponse) => {
@@ -37,6 +35,7 @@ function Main(props) {
             name: card.name,
             link: card.link,
             likes: card.likes.length,
+            id: card._id,
           };
         });
         setCards(collectedCards);
@@ -85,6 +84,7 @@ function Main(props) {
         <ul className="elements__list">
           {cards.map((card) => (
             <Card
+              key={card.id}
               onConfirm={props.onConfirm}
               card={card}
               onCardClick={props.onCardClick}

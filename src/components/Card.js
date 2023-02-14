@@ -3,14 +3,16 @@ import buttonTrash from "../images/trash.svg";
 
 function Card({ card, onCardClick, onConfirm }) {
   const handleCardClick = () => {
-    onCardClick(card.link);
+ 
+    onCardClick(card);
+    
   };
 
   return (
-    <>
+   
       <li className="element">
         <img
-          alt={card.name}
+          alt='Удаление'
           className="element__delete"
           src={buttonTrash}
           onClick={onConfirm}
@@ -19,7 +21,7 @@ function Card({ card, onCardClick, onConfirm }) {
           <img
             src={card.link}
             onClick={handleCardClick}
-            alt="Фотография местности"
+            alt={card.name}
             className="element__images"
           />
         </div>
@@ -35,7 +37,7 @@ function Card({ card, onCardClick, onConfirm }) {
           </div>
         </div>
       </li>
-    </>
+    
   );
 }
 
