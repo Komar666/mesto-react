@@ -10,7 +10,6 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 
-
 function App(props) {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
@@ -70,18 +69,30 @@ function App(props) {
       "color: violet"
     );
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikes(card._id, isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
+    api
+      .changeLikes(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleCardDelete(card) {
     const isOwn = card.owner._id === currentUser._id;
     // Отправляем запрос в API и получаем обновлённые данные карточки
     isOwn &&
-      api.deleteCard(card._id).then(() => {
-        setCards((state) => state.filter((v) => v._id !== card._id));
-      });
+      api
+        .deleteCard(card._id)
+        .then(() => {
+          setCards((state) => state.filter((v) => v._id !== card._id));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   }
 
   function handleUpdateUser({ name, about }) {
@@ -95,6 +106,7 @@ function App(props) {
           "color: cyan;"
         );
         setCurrentUser(updatedUser);
+        setEditProfilePopupOpen();
       })
       .catch((err) => {
         console.log(err);
@@ -112,6 +124,7 @@ function App(props) {
           "color: cyan;"
         );
         setCurrentUser(updatedUser);
+        setEditAvatarPopupOpen();
       })
       .catch((err) => {
         console.log(err);
@@ -130,6 +143,7 @@ function App(props) {
         );
         setCards([createdPlace, ...cards]);
         // setCards([...cards, createdPlace])
+        setAddPlacePopupOpen();
       })
       .catch((err) => {
         console.log(err);
